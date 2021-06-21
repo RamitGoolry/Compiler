@@ -8,26 +8,26 @@ std::string shunting_yard(std::string infix) { // TEST
 
     // Priority of special characters
     std::unordered_map<char, int> specials {
-		{'?', 70}, {'+', 60}, {'*', 50},
-		{'.', 40}, {'|', 30}
+		{'*', 10}, {'.', 9}, {'+', 8},
+		{'?', 7}, {'|', 6}
 	};
 
     std::string postfix;
-    std::stack<char> stk;
+    std::stack<char> op_stack;
 
     for(char c : infix) {
         switch(c) {
             case '(':
-                stk.push(c);
+                op_stack.push(c);
             break;
 
             case ')':
-                while((top = stk.top()) != '(') {
+                while((top = op_stack.top()) != '(') {
                     postfix.push_back(top);
-                    stk.pop();
+                    op_stack.pop();
                 }
                 
-                stk.pop();          // Remove '('
+                op_stack.pop();          // Remove '('
             break;
 
             case '?':
@@ -35,12 +35,12 @@ std::string shunting_yard(std::string infix) { // TEST
             case '*':
             case '.':
             case '|':            
-                while (stk.size() > 0 && 
-                    specials[c] <= (specials.find(top = stk.top()) != specials.end() ? specials[top] : 0)) {
+                while (op_stack.size() > 0 && 
+                    specials[c] <= (specials.find(top = op_stack.top()) != specials.end() ? specials[top] : 0)) {
                     postfix.push_back(top);
-                    stk.pop();
+                    op_stack.pop();
                 }
-                stk.push(c);
+                op_stack.push(c);
             break;
 
             default:
@@ -48,10 +48,10 @@ std::string shunting_yard(std::string infix) { // TEST
         }
     }
 
-	while(stk.size() > 0) {
-		top = stk.top();
+	while(op_stack.size() > 0) {
+		top = op_stack.top();
 		postfix.push_back(top);
-		stk.pop();
+		op_stack.pop();
 	}
 
     return postfix;

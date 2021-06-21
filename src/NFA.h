@@ -9,10 +9,8 @@ std::string shunting_yard(std::string infix);
 
 class NFA {
 private:
-    std::unordered_set<State *> states; 
-    // REVIEW Do we even need this if we are starting always from start?
-
     State * start;
+	State * end;
     
 public:
     NFA(std::string regex) {

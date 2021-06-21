@@ -5,29 +5,37 @@
 
 #include "../src/NFA.h"
 
-TEST (TestShuntingYard, SingleChar) {
-	std::string regex = "a";
-	ASSERT_TRUE(shunting_yard(regex) == "a");
-}
-
-TEST (TestShuntingYard, SingleAltercation) {
-	std::string regex = "a|b";
-	ASSERT_TRUE(shunting_yard(regex) == "ab|");
-}
-
-TEST (TestShuntingYard, SingleConcatenation) {
-	std::string regex = "a.b";
-	ASSERT_TRUE(shunting_yard(regex) == "ab.");
-}
-
 TEST (TestShuntingYard, NoChar) {
-	std::string regex = "";
-	ASSERT_TRUE(shunting_yard(regex) == "");
+	EXPECT_TRUE(shunting_yard("") == "");
 }
 
-TEST (TestShuntingYard, LongString) {
-	std::string regex = "abcdef";
-	ASSERT_TRUE(shunting_yard(regex) == "abcdef");
+TEST (TestShuntingYard, SingleChar) {
+	EXPECT_TRUE(shunting_yard("a") == "a");
+}
+
+TEST (TestShuntingYard, SingleOp) {
+	EXPECT_TRUE(shunting_yard("a|b") == "ab|");
+	EXPECT_TRUE(shunting_yard("a.b") == "ab.");
+	EXPECT_TRUE(shunting_yard("a*") == "a*");
+}
+
+TEST (TestShuntingYard, Multiple_Op) {
+	EXPECT_TRUE(shunting_yard("a.b|c") == "ab.c|");
+}
+
+TEST (TestShuntingYard, Parenthesis) {
+	EXPECT_TRUE(shunting_yard("()") == "");
+	EXPECT_TRUE(shunting_yard("()()") == "");
+	EXPECT_TRUE(shunting_yard("(())") == "");
+
+
+	EXPECT_TRUE(shunting_yard("(a|b)") == "ab|");
+	EXPECT_TRUE(shunting_yard("(a.b)") == "ab.");
+	EXPECT_TRUE(shunting_yard("(a*)") == "a*");
+
+	EXPECT_TRUE(shunting_yard("(a)(b)") == "ab");
+	EXPECT_TRUE(shunting_yard("(a|b)|c") == "ab|c|");
+	EXPECT_TRUE(shunting_yard("(a?)(b|c)") == "a?bc|");
 }
 
 int main(int argc, char** argv) {
