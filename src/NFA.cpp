@@ -6,13 +6,11 @@
 std::string shunting_yard(std::string infix) { // TEST
     char top;
 
-    std::unordered_map<char, int> specials;
     // Priority of special characters
-    specials['?'] = 70;
-    specials['+'] = 60;
-    specials['*'] = 50;
-    specials['.'] = 40;
-    specials['|'] = 30;
+    std::unordered_map<char, int> specials {
+		{'?', 70}, {'+', 60}, {'*', 50},
+		{'.', 40}, {'|', 30}
+	};
 
     std::string postfix;
     std::stack<char> stk;

@@ -1,11 +1,14 @@
-default: clean compile run
+test_scanner: test_scanner_compile test_scanner_run
+default: compile run
 
 compile:
-	mkdir build
 	g++ --std=c++11 -g src/main.cpp -o build/main src/NFA.cpp
 
 run:
-	./build/main
+	build/main
 
-clean:
-	rm -rf build
+test_scanner_compile:
+	g++ --std=c++11 -g tests/test_scanner.cpp -o build/tests/scanner -lgtest -lgtest_main -pthread src/NFA.cpp
+
+test_scanner_run:
+	build/tests/scanner
