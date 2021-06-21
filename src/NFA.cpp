@@ -48,13 +48,13 @@ std::string shunting_yard(std::string infix) { // TEST
             default:
                 postfix.push_back(c);
         }
-
-        while(stk.size() > 0) {
-            top = stk.top();
-            postfix.push_back(top);
-            stk.pop();
-        }
     }
+
+	while(stk.size() > 0) {
+		top = stk.top();
+		postfix.push_back(top);
+		stk.pop();
+	}
 
     return postfix;
 }
