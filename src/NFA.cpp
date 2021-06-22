@@ -3,14 +3,19 @@
 #include <unordered_map>
 #include <stack>
 
+int priority(char c) {
+	switch(c) {
+		case '*' : return 10;
+		case '.' : return 9;
+		case '+' : return 8;
+		case '?' : return 7;
+		case '|' : return 6;
+		default: return 0;
+	}
+}
+
 std::string shunting_yard(std::string infix) {
     char top;
-
-    // Priority of special characters
-    std::unordered_map<char, int> specials {
-		{'*', 10}, {'.', 9}, {'+', 8},
-		{'?', 7}, {'|', 6}
-	};
 
     std::string postfix;
     std::stack<char> op_stack;
@@ -36,7 +41,7 @@ std::string shunting_yard(std::string infix) {
             case '.':
             case '|':            
                 while (op_stack.size() > 0 && 
-                    specials[c] <= (specials.find(top = op_stack.top()) != specials.end() ? specials[top] : 0)) {
+                    priority(c) <= priority(top = op_stack.top())) {
                     postfix.push_back(top);
                     op_stack.pop();
                 }
@@ -91,7 +96,7 @@ NFA NFA::operator|(NFA &other) { // TEST
 /**
  * Thompson's Construction of Kleene Closure
  */
-NFA NFA::operator*() {
+NFA NFA::operator*() { // TEST
 	NFA nw;
 
 	this->get_end()->set_final(false);
