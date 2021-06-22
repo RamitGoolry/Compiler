@@ -14,9 +14,10 @@ public:
 
     State* epsilon_closure(); // TODO
 
-	void goes_to(State * next, char c);
+	void goes_to(State * next, char c = EPSILON);
 	
 	bool is_final() { return final; }
+	void set_final(bool f) { final = f; }
 
 	/** 
 	 * While an NFA can have multiple states, a DFA is Deterministic, it will

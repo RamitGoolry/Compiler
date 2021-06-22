@@ -15,13 +15,11 @@ private:
 public:
 
 	/**
-	 * Default Constructor, Returns an NFA that just has one epsilon transition to end.
+	 * Default Constructor, Returns an NFA that just has no transitions.
 	 */
 	NFA() {
 		start = new State();
 		end = new State(true);
-
-		start->goes_to(end, State::EPSILON);
 	}
 
 	/**
@@ -35,27 +33,25 @@ public:
 		start->goes_to(end, c);
 	}
 
+	NFA(NFA& nfa) {
+		// TODO Copy constructor
+	}
+
 	/**
 	 * RegEx Constructor, Returns an NFA that accepts a regular expression.
 	 */
-    //NFA(std::string regex) {
-        //// Regex -> NFA : Thompson's Construction
-        //std::string postfix = shunting_yard(regex);
+	NFA(std::string regex) {
+		// Regex -> NFA : Thompson's Construction
+		std::string postfix = shunting_yard(regex);
 
-        //// TODO Compile postfix
-    //}
+		// TODO Compile postfix
+	}
 
-	//NFA operator| (NFA& other) {
-		//// TODO Altercation
-	//}
+	NFA operator| (NFA& other);
 
-	//NFA operator+ (NFA& other) {
-		//// TODO Concatenation
-	//}
+	NFA operator+ (NFA& other);
 
-	//NFA operator* () {
-		//// TODO Closure
-	//}
+	NFA operator* ();
 
 	~NFA() {
 		// TODO Deconstruct Object by traversing each each node from start -> end

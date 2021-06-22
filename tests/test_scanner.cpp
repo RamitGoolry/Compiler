@@ -48,10 +48,8 @@ TEST (NFA, DefaultConstructor) {
 	EXPECT_TRUE(nfa.get_end()->is_final());
 
 	// Testing edges
-	EXPECT_TRUE(nfa.get_start()->follow() == nfa.get_end());
-	EXPECT_TRUE(nfa.get_start()->follow(State::EPSILON) == nfa.get_end());
-
-	// All these should fail
+	EXPECT_TRUE(nfa.get_start()->follow() == nullptr);
+	EXPECT_TRUE(nfa.get_start()->follow(State::EPSILON) == nullptr);
 	EXPECT_TRUE(nfa.get_start()->follow('a') == nullptr);
 	EXPECT_TRUE(nfa.get_start()->follow('b') == nullptr);
 	EXPECT_TRUE(nfa.get_start()->follow('c') == nullptr);
