@@ -15,7 +15,8 @@ private:
 public:
 
 	/**
-	 * Default Constructor, Returns an NFA that just has no transitions.
+	 * Default Constructor, Constructs an NFA that has no transitions, just
+	 * a start and an end. Every String is invalid to this NFA.
 	 */
 	NFA() {
 		start = new State();
@@ -23,7 +24,7 @@ public:
 	}
 
 	/**
-	 * Char Constructor, Returns an NFA that has one character transition to end.
+	 * Char Constructor, Constructs an NFA that has one character transition to end.
 	 * As a result it only accepts that one character.
 	 */
 	NFA(char c) {
@@ -33,8 +34,11 @@ public:
 		start->goes_to(end, c);
 	}
 
-	NFA(NFA& nfa) {
-		// TODO Copy constructor
+	/**
+	 * Copy Constructor, Constructs an NFA that is a copy of the first NFA.
+	 */
+	NFA(NFA& nfa) { // TODO
+		// Idea : We can think of an NFA as a directed graph, with the states as vertices and 
 	}
 
 	/**
