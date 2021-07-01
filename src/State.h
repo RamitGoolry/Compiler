@@ -2,8 +2,12 @@
 
 #include <unordered_map>
 
+class NFA;
+
 class State {
 private:
+	friend class NFA;
+
     // REVIEW Does State need an ID?
     std::unordered_map<char, State *> transitions;
     bool final;

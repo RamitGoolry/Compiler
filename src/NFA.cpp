@@ -1,8 +1,5 @@
 #include "NFA.h"
 
-#include <unordered_map>
-#include <stack>
-
 int priority(char c) {
 	switch(c) {
 		case '*' : return 10;
@@ -68,11 +65,13 @@ std::string shunting_yard(std::string infix) {
 NFA NFA::operator+(NFA &other) {  // TEST
 	// FIXME Concatenation is happening in place, changing the calling variable
 	// This is unwanted behavior.
-	
-	this->end->set_final(false);
-	this->end->goes_to(other.get_start());
 
-	return *this;
+    NFA nw(*this);
+	
+	nw.end->set_final(false);
+	nw.end->goes_to(other.get_start());
+
+	return nw;
 }
 
 /**

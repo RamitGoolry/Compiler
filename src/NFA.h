@@ -1,7 +1,11 @@
 #pragma once
 
+#include <iostream> // REMOVE
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
+#include <stack>
+#include <queue>
 
 #include "State.h"
 
@@ -37,8 +41,35 @@ public:
 	/**
 	 * Copy Constructor, Constructs an NFA that is a copy of the first NFA.
 	 */
-	NFA(NFA& nfa) { // TODO
-		// Idea : We can think of an NFA as a directed graph, with the states as vertices and 
+	NFA(NFA& nfa) { // TEST
+		// Idea : We can think of an NFA as a directed graph, with the states as vertices and
+		// transition as edges. Hence, we can use a graph cloning algorithm to copy the NFA over.
+
+		std::unordered_map<State *, State *> visited;
+		std::queue<State *> q;
+
+		q.push(nfa.start);
+		visited[nfa.start] = new State();
+
+		while (q.size() > 0) {
+			State * state = q.front();
+			q.pop();
+
+			for(auto it : state->transitions) {
+				char ch = it.first;
+				State * neighbor = it.second;
+
+				if (visited.find(neighbor) == visited.end()) { // Did not visit neighbor before.
+					visited[neighbor] = new State(neighbor->is_final());
+					q.push(neighbor);
+				}
+
+				visited[state]->goes_to(visited[neighbor], ch);
+			}
+		}
+
+		this->start = visited[nfa.start];
+		this->end = visited[nfa.end];
 	}
 
 	/**
@@ -51,11 +82,11 @@ public:
 		// TODO Compile postfix
 	}
 
-	NFA operator| (NFA& other);
+	NFA operator | (NFA& other);
 
-	NFA operator+ (NFA& other);
+	NFA operator + (NFA& other);
 
-	NFA operator* ();
+	NFA operator * ();
 
 	~NFA() {
 		// TODO Deconstruct Object by traversing each each node from start -> end
