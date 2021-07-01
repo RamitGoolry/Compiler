@@ -63,9 +63,6 @@ std::string shunting_yard(std::string infix) {
  * Thompson's Construction of Concatenation
  */
 NFA NFA::operator+(NFA &other) {  // TEST
-	// FIXME Concatenation is happening in place, changing the calling variable
-	// This is unwanted behavior.
-
     NFA nw(*this);
 	
 	nw.end->set_final(false);
@@ -80,14 +77,14 @@ NFA NFA::operator+(NFA &other) {  // TEST
 NFA NFA::operator|(NFA &other) { // TEST
 	NFA nw;
 
-	this->get_end()->set_final(false);
-	other.get_end()->set_final(false);
+	this->end->set_final(false);
+	other.end->set_final(false);
 
-	nw.get_start()->goes_to(this->get_start());
-	nw.get_start()->goes_to(other.get_start());
+	nw.start->goes_to(this->start);
+	nw.start->goes_to(other.start);
 
-	this->get_end()->goes_to(nw.get_end());
-	other.get_end()->goes_to(nw.get_end());
+	this->end->goes_to(nw.end);
+	other.end->goes_to(nw.end);
 
 	return nw;
 }
